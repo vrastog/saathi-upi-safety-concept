@@ -28,7 +28,9 @@ const backRow = (title, act) => `<div class="appback"><button class="iconbtn" da
 
 let model, metrics, scenario = SCENARIOS[0], state, timer, toastTimer, run = 0;
 
-function fresh() { clearInterval(timer); run++; state = { senior: "home", contact: "home", result: null, copy: null, wait: 10, note: "", outcome: "", event: "", toast: "", toastOn: "" }; render(); }
+let showPhone = "senior", lastContact = "home";
+
+function fresh() { clearInterval(timer); run++; showPhone = "senior"; lastContact = "home"; state ={ senior: "home", contact: "home", result: null, copy: null, wait: 10, note: "", outcome: "", event: "", toast: "", toastOn: "" }; render(); }
 
 function stepIndex() {
   if (state.event && state.senior === "home") return 5;
@@ -142,13 +144,52 @@ function render() {
   $("scenario").onchange = (e) => { scenario = SCENARIOS.find((s) => s.id === e.target.value); fresh(); };
   $("reset").onclick = fresh;
   $("live").textContent = `Senior: ${state.senior}. Trusted contact: ${state.contact}.`;
+  if (state.contact !== lastContact) {
+    if (state.contact === "call") showPhone = "contact";
+    if (state.contact === "done") showPhone = "senior";
+    lastContact = state.contact;
+  }
+  applyPhone(); fit();
 }
 
-function openTab(name) { document.querySelectorAll("[data-tab]").forEach((b) => { b.setAttribute("aria-selected", b.dataset.tab === name); $(b.dataset.tab).hidden = b.dataset.tab !== name; }); }
+// On phone-sized screens only one device shows at a time, and the switch pulses when the next step is on the other one.
+function applyPhone() {
+  $("stage").dataset.show = showPhone;
+  const wanted = ["call", "warn"].includes(hotTarget()) ? "contact" : "senior";
+  document.querySelectorAll("[data-phone-view]").forEach((b) => {
+    const view = b.dataset.phoneView;
+    b.setAttribute("aria-pressed", view === showPhone);
+    b.classList.toggle("hot", view === wanted && view !== showPhone);
+  });
+}
+
+// Scales each tab so it always fits the window without page scrolling.
+function fit() {
+  const width = window.innerWidth, mobile = width < 760;
+  document.body.classList.toggle("compact", width < 1000);
+  document.body.classList.toggle("mobile", mobile);
+  if (!$("demo").hidden) {
+    const area = $("fitarea");
+    $("stage").style.zoom = mobile ? 1 : Math.min(area.clientWidth / 736, area.clientHeight / 784, 1.2);
+  }
+  if (!$("screens").hidden) {
+    const box = $("screens");
+    $("gallery").style.zoom = mobile ? Math.min(box.clientHeight / 660, box.clientWidth / 320) : Math.min(box.clientWidth / 1624, box.clientHeight / 664, 1);
+  }
+  if (!$("eval").hidden) {
+    const box = $("eval"), grid = box.firstElementChild;
+    grid.style.zoom = 1;
+    if (!mobile) grid.style.zoom = Math.min(box.clientWidth / 1130, box.clientHeight / (grid.offsetHeight + 4), 1.2);
+  }
+}
+
+function openTab(name) { document.querySelectorAll("[data-tab]").forEach((b) => { b.setAttribute("aria-selected", b.dataset.tab === name); $(b.dataset.tab).hidden = b.dataset.tab !== name; }); fit(); }
 
 document.addEventListener("click", (e) => {
   const tab = e.target.closest("[data-tab]");
   if (tab) return openTab(tab.dataset.tab);
+  const phoneView = e.target.closest("[data-phone-view]");
+  if (phoneView) { showPhone = phoneView.dataset.phoneView; return applyPhone(); }
   const inert = e.target.closest(".inert");
   if (inert && inert.closest("#demo")) {
     state.toast = "This option isn't part of this walkthrough."; state.toastOn = inert.closest("#contact") ? "contact" : "senior"; render();
@@ -185,15 +226,18 @@ function evaluation() {
   const p = (x) => (x * 100).toFixed(1) + "%", t = metrics.test, s = metrics.handwritten_scenarios;
   const row = (name, m) => `<tr><td>${name}</td><td>${p(m.precision)}</td><td>${p(m.recall)}</td><td>${p(m.false_positive_rate)}</td><td>${p(m.rupee_recall)}</td></tr>`;
   const head = "<tr><th>Approach</th><th>Precision</th><th>Recall</th><th>False alarms</th><th>Scam ₹ flagged</th></tr>";
-  $("eval").innerHTML = `<div class="callout"><b>Read this first:</b> these numbers come from simulated data, so they do not estimate real-world fraud detection.</div>
-  <h2 class="section">Simulated test set</h2><p class="muted">${metrics.dataset.test_seniors} held-out synthetic seniors, ${t.logistic_regression.tp + t.logistic_regression.fn} scam payments.</p><div class="tablewrap"><table>${head}${row("Rules baseline", t.rules_baseline)}${row("Logistic regression (used)", t.logistic_regression)}${row("Gradient boosting", t.gradient_boosting)}</table></div>
-  <h2 class="section">${s.n} hand-written hard cases</h2><p class="muted">Never used for training or threshold selection. The model catches more scams here but also raises more false alarms than the rules.</p><div class="tablewrap"><table>${head}${row("Rules baseline", s.rules_baseline)}${row("Logistic regression", s.model)}</table></div>
-  <h2 class="section">Recall on a scam type removed from training</h2><div class="tablewrap"><table><tr><th>Held-out type</th><th>Test payments</th><th>Recall</th></tr>${Object.entries(metrics.unseen_scam_type_recall).map(([k, v]) => `<tr><td>${k.replaceAll("_", " ")}</td><td>${v.n}</td><td>${p(v.recall)}</td></tr>`).join("")}</table></div>
-  <h2 class="section">Precision if real scams were rarer</h2><p class="muted">Calculated from the test recall and false-alarm rate. Real prevalence among seniors is unknown.</p><div class="tablewrap"><table><tr><th>Assumed scam share of payments</th><th>Precision</th></tr>${Object.entries(metrics.precision_if_real_prevalence_were).map(([k, v]) => `<tr><td>${(k * 100).toFixed(2)}%</td><td>${p(v)}</td></tr>`).join("")}</table></div>`;
+  const swipe = '<div class="swipe">Swipe for more. All numbers are from simulated data.</div>';
+  $("eval").innerHTML = `<div class="evalgrid"><div class="callout"><b>Read this first:</b> these numbers come from simulated data, so they do not estimate real-world fraud detection.</div>
+  <div class="evalcard"><h2 class="section">Simulated test set</h2><p class="muted">${metrics.dataset.test_seniors} held-out synthetic seniors, ${t.logistic_regression.tp + t.logistic_regression.fn} scam payments.</p><div class="tablewrap"><table>${head}${row("Rules baseline", t.rules_baseline)}${row("Logistic regression (used)", t.logistic_regression)}${row("Gradient boosting", t.gradient_boosting)}</table></div>${swipe}</div>
+  <div class="evalcard"><h2 class="section">${s.n} hand-written hard cases</h2><p class="muted">Never used for training or threshold selection. The model catches more scams here but also raises more false alarms than the rules.</p><div class="tablewrap"><table>${head}${row("Rules baseline", s.rules_baseline)}${row("Logistic regression", s.model)}</table></div>${swipe}</div>
+  <div class="evalcard"><h2 class="section">Recall on a scam type removed from training</h2><p class="muted">Shows how the model handles a scam pattern it has not seen.</p><div class="tablewrap"><table><tr><th>Held-out type</th><th>Test payments</th><th>Recall</th></tr>${Object.entries(metrics.unseen_scam_type_recall).map(([k, v]) => `<tr><td>${k.replaceAll("_", " ")}</td><td>${v.n}</td><td>${p(v.recall)}</td></tr>`).join("")}</table></div>${swipe}</div>
+  <div class="evalcard"><h2 class="section">Precision if real scams were rarer</h2><p class="muted">Calculated from the test recall and false-alarm rate. Real prevalence among seniors is unknown.</p><div class="tablewrap"><table><tr><th>Assumed scam share of payments</th><th>Precision</th></tr>${Object.entries(metrics.precision_if_real_prevalence_were).map(([k, v]) => `<tr><td>${(k * 100).toFixed(2)}%</td><td>${p(v)}</td></tr>`).join("")}</table></div></div></div>`;
 }
 
 (async function init() {
   $("brand").innerHTML = wordmark(24);
   [model, metrics] = await Promise.all([fetch("model.json").then((r) => r.json()), fetch("metrics.json").then((r) => r.json())]);
   gallery(); evaluation(); fresh();
+  window.addEventListener("resize", fit);
+  document.fonts?.ready.then(fit);
 })();
