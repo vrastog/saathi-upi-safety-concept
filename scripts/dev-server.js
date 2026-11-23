@@ -1,7 +1,7 @@
-// Local development server. Run: GEMINI_API_KEY=... node server.js
+// Local development server. Run: GEMINI_API_KEY=... node scripts/dev-server.js
 const http = require("http"), fs = require("fs"), path = require("path");
-const explain = require("./api/explain");
-const root = path.join(__dirname, "web", "public");
+const explain = require("../api/explain");
+const root = path.join(__dirname, "..", "web", "public");
 const types = { ".html": "text/html; charset=utf-8", ".js": "text/javascript", ".json": "application/json" };
 
 http.createServer((req, res) => {

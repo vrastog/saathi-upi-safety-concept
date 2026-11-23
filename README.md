@@ -2,6 +2,8 @@
 
 > **Independent student concept.** Not affiliated with or endorsed by Google, NPCI, or any bank. All people, transactions, and metrics are **synthetic**. No user research has been conducted yet. "Saathi" is a working title.
 
+**[Try the live demo](https://saathi-upi-concept.vercel.app)**
+
 ## Problem
 Investment scams were about 77% of India's reported 2025 cyber-fraud losses, and digital arrest scams about 8% ([source](https://www.lokmattimes.com/technology/indians-lose-over-rs-52976-crore-to-cyber-frauds-over-six-years-report-1/amp)).
 
@@ -34,7 +36,7 @@ python3 -m venv .venv && .venv/bin/pip install scikit-learn numpy pandas
 .venv/bin/python ml/train.py
 ```
 ```bash
-GEMINI_API_KEY=your_key node server.js
+GEMINI_API_KEY=your_key node scripts/dev-server.js
 ```
 
 The app also runs without a key, using the templates.
