@@ -1,0 +1,49 @@
+id,category,label,amount,median,prior_n,last_amt,consec,cum14,age,call,reports,hour,balance,note
+F01,investment,1,5000,800,0,0,0,0,0,0,0,11,600000,First small deposit to tips-group payee
+F02,investment,1,10000,800,1,5000,1,5000,3,0,0,12,595000,Second deposit after fake profit
+F03,investment,1,25000,800,2,10000,2,15000,7,0,0,10,585000,Third escalating deposit
+F04,investment,1,60000,850,3,25000,3,40000,11,0,0,16,560000,Fourth escalating deposit
+F05,investment,1,150000,900,4,60000,4,100000,14,0,1,11,500000,Large deposit to reported payee
+F06,investment,1,3000,2000,0,0,0,0,0,0,0,18,900000,Subtle first payment near usual spend
+F07,investment,1,40000,1200,0,0,0,0,0,0,0,13,450000,Scammer rotated to a new payee
+F08,investment,1,15000,1500,3,12000,2,12000,40,0,0,15,700000,Slow-burn deposit over weeks
+F09,digital_arrest,1,200000,1000,0,0,0,0,0,1,0,14,800000,Fake police on an unknown call
+F10,digital_arrest,1,95000,700,0,0,0,0,0,1,1,17,300000,Fake CBI with reported payee
+F11,digital_arrest,1,250000,1500,1,100000,1,100000,1,1,0,10,500000,Second fake settlement payment
+F12,digital_arrest,1,49000,600,0,0,0,0,0,0,0,20,250000,Victim told to hang up before paying
+F13,digital_arrest,1,300000,2000,0,0,0,0,0,1,2,12,1000000,Large payment to heavily reported payee
+F14,digital_arrest,1,75000,900,0,0,0,0,0,1,0,23,200000,Late-night coerced payment
+F15,fake_kyc,1,4999,700,0,0,0,0,0,1,1,11,350000,KYC update fee to reported payee
+F16,fake_kyc,1,12000,800,0,0,0,0,0,1,0,16,420000,Fake bank agent on a call
+F17,fake_kyc,1,1500,900,0,0,0,0,0,1,0,12,280000,Small verification charge
+F18,fake_kyc,1,24000,1000,1,1500,1,1500,0.1,1,0,12,278000,Follow-up charge after small payment
+F19,fake_kyc,1,8000,1200,0,0,0,0,0,0,1,19,500000,Link-based KYC payee with reports
+F20,emergency,1,30000,700,0,0,0,0,0,1,0,21,300000,Fake grandson in trouble
+F21,emergency,1,55000,1100,0,0,0,0,0,0,0,9,650000,WhatsApp impersonation with no call
+F22,emergency,1,18000,800,0,0,0,0,0,1,1,15,220000,Fake hospital demand with reports
+F23,emergency,1,45000,900,1,18000,1,18000,0.2,1,0,15,200000,Second emergency demand
+F24,emergency,1,9000,1500,0,0,0,0,0,0,0,10,400000,Low-value impersonation with no call
+L01,routine,0,450,700,25,500,0,1500,150,0,0,9,500000,Regular grocer
+L02,routine,0,1200,800,12,1100,1,1100,120,0,0,11,420000,Pharmacy refill
+L03,routine,0,2200,1500,6,2100,1,0,160,0,0,18,650000,Monthly electricity bill
+L04,routine,0,300,600,40,350,0,900,170,1,0,8,250000,Milk payment during an unknown call
+L05,routine,0,800,700,0,0,0,0,0,0,0,12,300000,New vegetable vendor
+L06,routine,0,1500,1000,0,0,0,0,0,0,0,17,700000,New local shop
+L07,routine,0,5000,4000,10,4800,1,0,150,0,0,10,900000,Domestic help salary
+L08,routine,0,650,600,8,600,3,1200,90,0,0,23,350000,Late-night medicine delivery
+L09,medical,0,45000,900,0,0,0,0,0,1,0,14,600000,Hospital deposit after hospital call
+L10,medical,0,12000,800,0,0,0,0,0,0,0,10,350000,Diagnostic lab package
+L11,medical,0,85000,1200,1,45000,1,45000,2,0,0,12,550000,Second hospital bill
+L12,gift,0,21000,1000,0,0,0,0,0,0,0,13,700000,Niece wedding gift
+L13,gift,0,11000,700,0,0,0,0,0,0,0,18,250000,Temple donation
+L14,repair,0,8000,1000,0,0,0,0,0,0,0,11,450000,Plumber advance
+L15,repair,0,15000,1000,1,8000,1,8000,4,0,0,12,442000,Plumber second payment
+L16,repair,0,30000,1100,2,15000,2,23000,8,0,0,16,427000,Renovation escalation
+L17,investment_legit,0,10000,1500,0,0,0,0,0,0,0,11,1200000,First payment to a registered broker
+L18,investment_legit,0,15000,1500,1,10000,1,0,30,0,0,11,1190000,Monthly top-up to broker
+L19,investment_legit,0,25000,1600,2,15000,2,15000,35,0,0,10,1175000,Larger top-up to broker
+L20,insurance,0,32000,1000,0,0,0,0,0,1,0,15,800000,Annual premium after agent call
+L21,insurance,0,18000,900,3,17000,1,0,365,0,0,12,500000,Annual premium to known insurer
+L22,family,0,50000,1200,20,5000,1,5000,170,1,0,20,900000,Transfer to own daughter
+L23,family,0,100000,2000,15,20000,1,0,180,0,0,10,1500000,Transfer to son for a car
+L24,travel,0,28000,1000,0,0,0,0,0,0,0,16,600000,Pilgrimage tour operator

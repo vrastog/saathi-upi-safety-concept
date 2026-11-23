@@ -1,0 +1,4 @@
+{
+  "outputDirectory": "web/public",
+  "functions": { "api/explain.js": { "maxDuration": 10 } }
+}

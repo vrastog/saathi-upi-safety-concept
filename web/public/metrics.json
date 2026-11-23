@@ -1,0 +1,155 @@
+{
+ "synthetic_data_notice": "All metrics are measured on simulated data and do not estimate real-world performance.",
+ "dataset": {
+  "seniors": 800,
+  "transactions": 99173,
+  "scam_transactions": 517,
+  "simulated_scam_share": 0.005213112439877789,
+  "train_seniors": 480,
+  "validation_seniors": 160,
+  "test_seniors": 160
+ },
+ "target_false_positive_rate": 0.01,
+ "test": {
+  "rules_baseline": {
+   "precision": 0.08716323296354993,
+   "recall": 0.6547619047619048,
+   "false_positive_rate": 0.029372768995410505,
+   "rupee_recall": 0.6702383987485088,
+   "tp": 55,
+   "fp": 576,
+   "fn": 29,
+   "tn": 19034
+  },
+  "logistic_regression": {
+   "precision": 0.2727272727272727,
+   "recall": 0.8928571428571429,
+   "false_positive_rate": 0.010198878123406425,
+   "rupee_recall": 0.9880089294244206,
+   "tp": 75,
+   "fp": 200,
+   "fn": 9,
+   "tn": 19410,
+   "roc_auc": 0.9954469294091935,
+   "pr_auc": 0.6022936319706568
+  },
+  "gradient_boosting": {
+   "precision": 0.26181818181818184,
+   "recall": 0.8571428571428571,
+   "false_positive_rate": 0.010351861295257522,
+   "rupee_recall": 0.979507057633303,
+   "tp": 72,
+   "fp": 203,
+   "fn": 12,
+   "tn": 19407,
+   "roc_auc": 0.9964971710254729,
+   "pr_auc": 0.7203826936957177
+  }
+ },
+ "unseen_scam_type_recall": {
+  "investment": {
+   "n": 54,
+   "recall": 0.3148148148148148
+  },
+  "digital_arrest": {
+   "n": 10,
+   "recall": 1.0
+  },
+  "fake_kyc": {
+   "n": 6,
+   "recall": 0.8333333333333334
+  },
+  "emergency": {
+   "n": 14,
+   "recall": 0.9285714285714286
+  }
+ },
+ "handwritten_scenarios": {
+  "n": 48,
+  "model": {
+   "precision": 0.6785714285714286,
+   "recall": 0.7916666666666666,
+   "false_positive_rate": 0.375,
+   "rupee_recall": 0.977433464084516,
+   "tp": 19,
+   "fp": 9,
+   "fn": 5,
+   "tn": 15
+  },
+  "rules_baseline": {
+   "precision": 0.7619047619047619,
+   "recall": 0.6666666666666666,
+   "false_positive_rate": 0.20833333333333334,
+   "rupee_recall": 0.8837991807337021,
+   "tp": 16,
+   "fp": 5,
+   "fn": 8,
+   "tn": 19
+  },
+  "misses": [
+   {
+    "id": "F01",
+    "note": "First small deposit to tips-group payee"
+   },
+   {
+    "id": "F06",
+    "note": "Subtle first payment near usual spend"
+   },
+   {
+    "id": "F08",
+    "note": "Slow-burn deposit over weeks"
+   },
+   {
+    "id": "F17",
+    "note": "Small verification charge"
+   },
+   {
+    "id": "F24",
+    "note": "Low-value impersonation with no call"
+   }
+  ],
+  "false_alarms": [
+   {
+    "id": "L09",
+    "note": "Hospital deposit after hospital call"
+   },
+   {
+    "id": "L10",
+    "note": "Diagnostic lab package"
+   },
+   {
+    "id": "L11",
+    "note": "Second hospital bill"
+   },
+   {
+    "id": "L12",
+    "note": "Niece wedding gift"
+   },
+   {
+    "id": "L13",
+    "note": "Temple donation"
+   },
+   {
+    "id": "L15",
+    "note": "Plumber second payment"
+   },
+   {
+    "id": "L16",
+    "note": "Renovation escalation"
+   },
+   {
+    "id": "L20",
+    "note": "Annual premium after agent call"
+   },
+   {
+    "id": "L24",
+    "note": "Pilgrimage tour operator"
+   }
+  ]
+ },
+ "precision_if_real_prevalence_were": {
+  "0.01": 0.4692959364380415,
+  "0.001": 0.08057160231073275,
+  "0.0001": 0.008679349168313871
+ }
+}
